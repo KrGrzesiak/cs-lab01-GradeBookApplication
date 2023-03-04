@@ -24,10 +24,12 @@ namespace GradeBook.GradeBooks
 
             if (N < 5) { throw new InvalidOperationException(); }
             
-            if (N <= 20) { return 'A'; }
-            else if ( (N % numberOfStudents) > 20 && N <= 40) { return 'B'; }
-            else if ( (N % numberOfStudents) > 40 && N <= 60) { return 'C'; }
-            else if ( (N % numberOfStudents) > 60 && N <= 80) { return 'D'; }
+            double procent = Convert.ToDouble(N) / Convert.ToDouble(numberOfStudents) * 100;
+
+            if (procent <= 20) { return 'A'; }
+            else if (procent > 20 && procent <= 40) { return 'B'; }
+            else if (procent > 40 && procent <= 60) { return 'C'; }
+            else if (procent > 60 && procent <= 80) { return 'D'; }
             else { return 'F'; }
         }
 
