@@ -14,21 +14,25 @@ namespace GradeBook.GradeBooks
 
         public override char GetLetterGrade(double averageGrade)
         {
-            double N = 0;
+            double N = (Students.Count % 10) * 2;
 
-            for (int i = 0; i < Students.Count; i++)
+            if (Students.Count < 5) { throw new InvalidOperationException(); }
+            else
             {
-                if (Students[i].AverageGrade >= averageGrade) { N++; }
+                double higherThanAverageGrade = 0;
+
+                for (int i = 0; i < Students.Count; i++)
+                {
+                    if (Students[i].AverageGrade > averageGrade) { higherThanAverageGrade++; }
+                }
+
+                if (higherThanAverageGrade <= N) { return 'A'; }
+                else if (higherThanAverageGrade > N && higherThanAverageGrade <= N * 2) { return 'B'; }
+                else if (higherThanAverageGrade > N * 2 && higherThanAverageGrade <= N * 3) { return 'C'; }
+                else if (higherThanAverageGrade > N && higherThanAverageGrade <= N * 4) { return 'D'; }
+                else { return 'F'; }
             }
-
-            double procent = N / Convert.ToDouble(Students.Count) * 100;
-
-            if (N < 5) { throw new InvalidOperationException(); }
-            else if (procent <= 20) { return 'A'; }
-            else if (procent > 20 && procent <= 40) { return 'B'; }
-            else if (procent > 40 && procent <= 60) { return 'C'; }
-            else if (procent > 60 && procent <= 80) { return 'D'; }
-            else { return 'F'; }
+            
         }
 
         public override void CalculateStatistics()

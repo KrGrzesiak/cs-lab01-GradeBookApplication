@@ -41,22 +41,22 @@ namespace GradeBook.UserInterfaces
             }
 
             var name = parts[1];
-            BaseGradeBook gradeBook = new BaseGradeBook(name);
-            Console.WriteLine("Created gradebook {0}.", name);
-            GradeBookUserInterface.CommandLoop(gradeBook);
+            //BaseGradeBook gradeBook = new BaseGradeBook(name);
+            //Console.WriteLine("Created gradebook {0}.", name);
+            //GradeBookUserInterface.CommandLoop(gradeBook);
 
-            //switch(parts[2])
-            //{
-            //    case "standard":
-            //        gradeBook = new StandardGradeBook(name);
-            //        break;
-            //    case "ranked":
-            //        gradeBook = new RankedGradeBook(name);
-            //        break;
-            //    default:
-            //        Console.WriteLine(" is not a supported type of gradebook, please try again");
-            //        break;
-            //}
+            switch(parts[2])
+            {
+                case "standard":
+                    StandardGradeBook gradeBook1 = new StandardGradeBook(name);
+                    break;
+                case "ranked":
+                    RankedGradeBook gradeBook2 = new RankedGradeBook(name);
+                    break;
+                default:
+                    Console.WriteLine(" is not a supported type of gradebook, please try again");
+                    return;
+            }
         }
 
         public static void LoadCommand(string command)
@@ -81,7 +81,7 @@ namespace GradeBook.UserInterfaces
             Console.WriteLine();
             Console.WriteLine("GradeBook accepts the following commands:");
             Console.WriteLine();
-            Console.WriteLine("Create 'Name' - Creates a new gradebook where 'Name' is the name of the gradebook.");
+            Console.WriteLine("Create 'Name' 'Type' - Creates a new gradebook where 'Name' is the name of the gradebook and 'Type' is what type of grading it should use.");
             Console.WriteLine();
             Console.WriteLine("Load 'Name' - Loads the gradebook with the provided 'Name'.");
             Console.WriteLine();
