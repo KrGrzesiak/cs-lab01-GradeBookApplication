@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace GradeBook.GradeBooks
@@ -7,32 +8,25 @@ namespace GradeBook.GradeBooks
     public class RankedGradeBook : BaseGradeBook
     {
 
-        public RankedGradeBook(string name) : base(name)
+        public RankedGradeBook(string name, bool IsWeighted) : base(name, IsWeighted)
         {
             Type = Enums.GradeBookType.Ranked;
         }
 
         public override char GetLetterGrade(double averageGrade)
         {
-            double N = (Students.Count % 10) * 2;
-
             if (Students.Count < 5) { throw new InvalidOperationException(); }
             else
             {
-                double higherThanAverageGrade = 0;
+                var N = (int)Math.Ceiling(Students.Count * 0.2);
+                var grades = Students.OrderByDescending(e => e.AverageGrade).Select(e => e.AverageGrade).ToList();
 
-                for (int i = 0; i < Students.Count; i++)
-                {
-                    if (Students[i].AverageGrade > averageGrade) { higherThanAverageGrade++; }
-                }
-
-                if (higherThanAverageGrade <= N) { return 'A'; }
-                else if (higherThanAverageGrade > N && higherThanAverageGrade <= N * 2) { return 'B'; }
-                else if (higherThanAverageGrade > N * 2 && higherThanAverageGrade <= N * 3) { return 'C'; }
-                else if (higherThanAverageGrade > N && higherThanAverageGrade <= N * 4) { return 'D'; }
+                if (grades[N - 1] <= averageGrade) { return 'A'; }
+                else if (grades[(N * 2) - 1] <= averageGrade) { return 'B'; }
+                else if (grades[(N * 3) - 1] <= averageGrade) { return 'C'; }
+                else if (grades[(N * 4) - 1] <= averageGrade) { return 'D'; }
                 else { return 'F'; }
             }
-            
         }
 
         public override void CalculateStatistics()
